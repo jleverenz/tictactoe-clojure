@@ -23,6 +23,14 @@
                                          0 1 2
                                          0 1 2 ))
 
+(def complete-1wins-board             '( 1 1 1
+                                         2 1 2
+                                         2 1 2 ))
+
+(def complete-2wins-board             '( 1 1 2
+                                         2 2 2
+                                         1 2 1 ))
+
 
 
 (deftest test-win-on-line
@@ -36,6 +44,19 @@
   (is (= false (is-board-solved? partially-complete-board)))
   (is (= true (is-board-solved? partially-complete-1wins-board)))
   (is (= true (is-board-solved? partially-complete-2wins-board)))
+  (is (= true (is-board-solved? complete-1wins-board)))
+  (is (= true (is-board-solved? complete-2wins-board)))
+  )
+
+
+(deftest test-is-board-full?
+  (is (= false (is-board-full? empty-board)))
+  (is (= true (is-board-full? draw-board)))
+  (is (= false (is-board-full? partially-complete-board)))
+  (is (= false (is-board-full? partially-complete-1wins-board)))
+  (is (= false (is-board-full? partially-complete-2wins-board)))
+  (is (= true (is-board-full? complete-1wins-board)))
+  (is (= true (is-board-full? complete-2wins-board)))
   )
 
 (deftest test-who-won-board
@@ -44,6 +65,8 @@
   (is (= 0 (who-won-board partially-complete-board)))
   (is (= 1 (who-won-board partially-complete-1wins-board)))
   (is (= 2 (who-won-board partially-complete-2wins-board)))
+  (is (= 1 (who-won-board complete-1wins-board)))
+  (is (= 2 (who-won-board complete-2wins-board)))
   )
 
 (deftest test-play-move-exceptions

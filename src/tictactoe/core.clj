@@ -39,6 +39,10 @@
 (defn is-board-solved? [board]
   (not (nil? (find-winner board))))
 
+
+(defn is-board-full? [board]
+  (nil? (first (filter #(= 0 %) board))))
+
 ;; 0, 1, or 2
 (defn who-won-board [board]
   (let [winner (find-winner board)]
