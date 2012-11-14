@@ -3,10 +3,6 @@
         tictactoe.core))
 
 
-(def empty-board                      '( 0 0 0
-                                         0 0 0
-                                         0 0 0 ))
-
 (def partially-complete-board         '( 0 2 0
                                          0 1 0
                                          0 0 0 ))
@@ -94,7 +90,7 @@
 (deftest test-play-game
   (let [check-play-game-result
         (fn [moves exp-winner exp-complete]
-          (let [outcome (play-game empty-board moves)]
+          (let [outcome (play-game moves)]
             (is (= 2 (count outcome))) ;; we have a board and turn state left
             (is (= exp-winner (who-won-board (first outcome))))
             (is (= exp-complete (is-board-complete? (first outcome))))

@@ -16,6 +16,10 @@
 ;;    criss     0       4       8
 ;;    cross         2   4   6
 
+(def empty-board                      '( 0 0 0
+                                         0 0 0
+                                         0 0 0 ))
+
 (def winning-lines
   ['(0 1 2) '(6 7 8)'(0 3 6)'(2 5 8)'(1 4 7)'(3 4 5)'(0 4 8)'(2 4 6)])
 
@@ -70,5 +74,5 @@
                    (nthrest moves 1)
                    (if (= 1 whos-turn) 2 1))))))
 
-(defn play-game [board moves]
-  (play-turn board moves 1))
+(defn play-game [moves]
+  (play-turn empty-board moves 1))
