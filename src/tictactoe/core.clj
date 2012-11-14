@@ -59,3 +59,16 @@
   (if (not (or (= move 1) (= move 2)))
     (throw (new IllegalArgumentException "MOVE out of bounds")))
   (concat (take index board) (list move) (nthrest board (+ index 1))))
+
+(defn play-turn [board moves whos-turn]
+  (let [winner (who-won-board board)]
+    (if (not (= 0 winner))
+      (list board whos-turn)
+      (if (empty? moves)
+        (list board whos-turn)
+        (play-turn (play-move board (first moves) whos-turn)
+                   (nthrest moves 1)
+                   (if (= 1 whos-turn) 2 1))))))
+
+(defn play-game [board moves]
+  (play-turn board moves 1))

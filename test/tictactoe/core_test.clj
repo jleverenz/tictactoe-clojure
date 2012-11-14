@@ -90,3 +90,17 @@
   (is (= '(0 0 0 0 0 0 0 0 2) (play-move empty-board 8 2)))
   (is (= '(1 2 1 2 1 2 1 2 1) (play-move '(1 2 1 2 1 0 1 2 1) 5 2)))
   )
+
+(deftest test-play-game
+  (let [check-play-game-result
+        (fn [moves exp-winner exp-complete]
+          (let [outcome (play-game empty-board moves)]
+            (is (= 2 (count outcome))) ;; we have a board and turn state left
+            (is (= exp-winner (who-won-board (first outcome))))
+            (is (= exp-complete (is-board-complete? (first outcome))))
+            outcome))]
+    (check-play-game-result [] 0 false)
+    (check-play-game-result [4] 0 false)
+    (check-play-game-result [4 0 1 6 7] 1 true)
+    (check-play-game-result [2 4 0 1 6 7] 2 true)
+    ))
