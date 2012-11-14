@@ -35,3 +35,10 @@
   (not (nil? (first (filter #(not (= 0 %))
                          (map #(win-on-line board %)
                               winning-lines))))))
+
+(defn play-move [board index move]
+  (if (or (< index 0) (> index 8))
+    (throw (new IllegalArgumentException "INDEX out of bounds")))
+  (if (not (or (= move 1) (= move 2)))
+    (throw (new IllegalArgumentException "MOVE out of bounds")))
+  (concat (take index board) (list move) (nthrest board (+ index 1))))

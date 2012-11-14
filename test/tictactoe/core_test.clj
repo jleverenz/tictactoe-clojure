@@ -23,6 +23,7 @@
                                          2 1 1
                                          1 1 2 ))
 
+
 (deftest test-win-on-line
   (is (= 0 (win-on-line empty-board '(0 1 2))))
   (is (= 1 (win-on-line partially-complete-1wins-board '(0 4 8))))
@@ -33,4 +34,16 @@
   (is (= false (is-board-solved? draw-board)))
   (is (= true (is-board-solved? partially-complete-1wins-board)))
   (is (= true (is-board-solved? partially-complete-2wins-board)))
+  )
+
+(deftest test-play-move-exceptions
+  (is (thrown? IllegalArgumentException (play-move empty-board -1 1)))
+  (is (thrown? IllegalArgumentException (play-move empty-board 9 1)))
+  (is (thrown? IllegalArgumentException (play-move empty-board 0 0)))
+  (is (thrown? IllegalArgumentException (play-move empty-board 0 3))))
+
+(deftest test-play-move
+  (is (= '(1 0 0 0 0 0 0 0 0) (play-move empty-board 0 1)))
+  (is (= '(0 0 0 0 0 0 0 0 2) (play-move empty-board 8 2)))
+  (is (= '(1 2 1 2 1 2 1 2 1) (play-move '(1 2 1 2 1 0 1 2 1) 5 2)))
   )
