@@ -59,6 +59,16 @@
   (is (= true (is-board-full? complete-2wins-board)))
   )
 
+(deftest test-is-board-complete?
+  (is (= false (is-board-complete? empty-board)))
+  (is (= true (is-board-complete? draw-board)))
+  (is (= false (is-board-complete? partially-complete-board)))
+  (is (= true (is-board-complete? partially-complete-1wins-board)))
+  (is (= true (is-board-complete? partially-complete-2wins-board)))
+  (is (= true (is-board-complete? complete-1wins-board)))
+  (is (= true (is-board-complete? complete-2wins-board)))
+  )
+
 (deftest test-who-won-board
   (is (= 0 (who-won-board empty-board)))
   (is (= 0 (who-won-board draw-board)))

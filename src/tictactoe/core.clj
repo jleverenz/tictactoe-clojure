@@ -48,6 +48,11 @@
   (let [winner (find-winner board)]
     (if (nil? winner) 0 winner)))
 
+(defn is-board-complete? [board]
+  (or (is-board-full? board)
+      (is-board-solved? board)))
+
+
 (defn play-move [board index move]
   (if (or (< index 0) (> index 8))
     (throw (new IllegalArgumentException "INDEX out of bounds")))
