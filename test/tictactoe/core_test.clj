@@ -11,6 +11,10 @@
                                          0 1 0
                                          0 0 0 ))
 
+(def draw-board                       '( 1 2 2
+                                         2 1 1
+                                         1 1 2 ))
+
 (def partially-complete-1wins-board   '( 1 0 2
                                          0 1 2
                                          0 0 1 ))
@@ -19,9 +23,6 @@
                                          0 1 2
                                          0 1 2 ))
 
-(def draw-board                       '( 1 2 2
-                                         2 1 1
-                                         1 1 2 ))
 
 
 (deftest test-win-on-line
@@ -32,8 +33,17 @@
 (deftest test-is-board-solved?
   (is (= false (is-board-solved? empty-board)))
   (is (= false (is-board-solved? draw-board)))
+  (is (= false (is-board-solved? partially-complete-board)))
   (is (= true (is-board-solved? partially-complete-1wins-board)))
   (is (= true (is-board-solved? partially-complete-2wins-board)))
+  )
+
+(deftest test-who-won-board
+  (is (= 0 (who-won-board empty-board)))
+  (is (= 0 (who-won-board draw-board)))
+  (is (= 0 (who-won-board partially-complete-board)))
+  (is (= 1 (who-won-board partially-complete-1wins-board)))
+  (is (= 2 (who-won-board partially-complete-2wins-board)))
   )
 
 (deftest test-play-move-exceptions

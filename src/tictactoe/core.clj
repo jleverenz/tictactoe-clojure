@@ -31,10 +31,18 @@
          (first marks)                  ; only one type, it's XXX or OOO
          0)))                           ; everything else is a loser
 
+(defn find-winner [board]
+  (first (filter #(not (= 0 %))
+                 (map #(win-on-line board %)
+                      winning-lines))))
+
 (defn is-board-solved? [board]
-  (not (nil? (first (filter #(not (= 0 %))
-                         (map #(win-on-line board %)
-                              winning-lines))))))
+  (not (nil? (find-winner board))))
+
+;; 0, 1, or 2
+(defn who-won-board [board]
+  (let [winner (find-winner board)]
+    (if (nil? winner) 0 winner)))
 
 (defn play-move [board index move]
   (if (or (< index 0) (> index 8))
