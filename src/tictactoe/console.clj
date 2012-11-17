@@ -17,16 +17,22 @@
 (defn player-name [player-num]
   (str "Player " (if (= player-num 1) "X" "O")))
 
-(defn play-console [board player]
+(defn console-input [player]
+  (printfln "%s's turn: " (player-name player))
+  (let [input (parse-int (read-line))]
+    (printfln "Player picked: %s" input)
+    input))
+
+
+(defn play-console [board player & input-func]
+  (let [input-func (if (nil? input-func) console-input input-func)]
   (print-board board)
   (if (is-board-solved? board)
     board
-    (let []
-      (printfln "%s's turn: " (player-name player))
-      (let [input (parse-int (read-line))]
-        (printfln "Player picked: %s" input)
-        (let [result (play-turn board [input] player)]
-          (recur (first result) (second result)))))))
+    (do
+      (let [input (input-func player)
+            result (play-turn board [input] player)]
+        (recur (first result) (second result) input-func))))))
 
 
 (defn -main [& args]
