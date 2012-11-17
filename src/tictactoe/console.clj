@@ -12,6 +12,7 @@
   (str "Player " (player-mark player-num)))
 
 (defn print-board [board]
+  (printfln "")
   (doseq [line (partition 3 board)]
     (printfln "+---+---+---+")
     (printfln "| %s |" (join " | " (map #(player-mark %1) line))))
@@ -26,20 +27,7 @@
     (printfln "Player picked: %s" input)
     (list input #(console-input %1 %2))))
 
-;; input-func: returns list w/ player's input, function for next input
-
-(defn play-console [board player & input-func]
-  (let [input-func (if (nil? input-func) console-input input-func)]
-  (print-board board)
-  (if (is-board-solved? board)
-    board
-    (do
-      (let [[input next-input-func] (input-func player board)
-            result (play-turn board [input] player)]
-        (recur (first result) (second result) next-input-func))))))
-
-
 (defn -main [& args]
-  (let [final-board (play-console empty-board 1)
+  (let [final-board (play-game empty-board 1 console-input print-board)
         winner (who-won-board final-board)]
     (printfln "*** %s won! ***" (player-name winner))))

@@ -87,16 +87,28 @@
   (is (= '(1 2 1 2 1 2 1 2 1) (play-move '(1 2 1 2 1 0 1 2 1) 5 2)))
   )
 
+;; TODO -- not used yet, but a sample of a random AI mover
+(defn rand-mover [player board]
+  (list
+   (rand-nth (map first (filter #(= 0 (second %)) (map-indexed vector board))))
+   #(rand-mover %1 %2)))
+
+(defn scripted-mover [player board moves]
+  (list
+   (first moves)
+   #(scripted-mover %1 %2 (rest moves))))
+
 (deftest test-play-game
   (let [check-play-game-result
-        (fn [moves exp-winner exp-complete]
-          (let [outcome (play-game moves)]
-            (is (= 2 (count outcome))) ;; we have a board and turn state left
-            (is (= exp-winner (who-won-board (first outcome))))
-            (is (= exp-complete (is-board-complete? (first outcome))))
-            outcome))]
-    (check-play-game-result [] 0 false)
-    (check-play-game-result [4] 0 false)
-    (check-play-game-result [4 0 1 6 7] 1 true)
-    (check-play-game-result [2 4 0 1 6 7] 2 true)
+        (fn [moves exp-winner]
+          (let [outcome-board (play-game empty-board
+                                         1
+                                         #(scripted-mover %1 %2 moves)
+                                         nil)]
+            (is (= 9 (count outcome-board))) ;; we have a board
+            (is (= exp-winner (who-won-board outcome-board)))
+            (is (is-board-complete? outcome-board))
+            ))]
+    (check-play-game-result [4 0 1 6 7] 1)
+    (check-play-game-result [2 4 0 1 6 7] 2)
     ))

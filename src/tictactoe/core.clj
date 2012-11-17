@@ -74,5 +74,12 @@
                    (nthrest moves 1)
                    (if (= 1 whos-turn) 2 1))))))
 
-(defn play-game [moves]
-  (play-turn empty-board moves 1))
+;; input-func: returns list w/ player's input, function for next input
+(defn play-game [board player input-func output]
+  (if (not (nil? output)) (output board))
+  (if (is-board-solved? board)
+    board
+    (do
+      (let [[input next-input-func] (input-func player board)
+            [board player] (play-turn board [input] player)]
+        (recur board player next-input-func output)))))
