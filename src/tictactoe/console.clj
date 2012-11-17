@@ -20,12 +20,13 @@
 (defn parse-int [s]
    (Integer. (re-find  #"\d+" s )))
 
-(defn console-input [player]
+(defn console-input [player board]
   (printfln "%s's turn: " (player-name player))
   (let [input (parse-int (read-line))]
     (printfln "Player picked: %s" input)
-    input))
+    (list input #(console-input %1 %2))))
 
+;; input-func: returns list w/ player's input, function for next input
 
 (defn play-console [board player & input-func]
   (let [input-func (if (nil? input-func) console-input input-func)]
@@ -33,9 +34,9 @@
   (if (is-board-solved? board)
     board
     (do
-      (let [input (input-func player)
+      (let [[input next-input-func] (input-func player board)
             result (play-turn board [input] player)]
-        (recur (first result) (second result) input-func))))))
+        (recur (first result) (second result) next-input-func))))))
 
 
 (defn -main [& args]
