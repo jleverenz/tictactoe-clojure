@@ -5,17 +5,20 @@
 
 (def printfln (comp println format))
 
+(defn player-mark [player-num]
+  (case player-num 1 "X" 2 "O" " "))
+
+(defn player-name [player-num]
+  (str "Player " (player-mark player-num)))
+
 (defn print-board [board]
   (doseq [line (partition 3 board)]
     (printfln "+---+---+---+")
-    (printfln "| %s |" (join " | " line)))
+    (printfln "| %s |" (join " | " (map #(player-mark %1) line))))
   (printfln "+---+---+---+"))
 
 (defn parse-int [s]
    (Integer. (re-find  #"\d+" s )))
-
-(defn player-name [player-num]
-  (str "Player " (if (= player-num 1) "X" "O")))
 
 (defn console-input [player]
   (printfln "%s's turn: " (player-name player))
