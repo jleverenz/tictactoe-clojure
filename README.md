@@ -1,13 +1,15 @@
-# tictactoe
+# tictactoe-clojure
 
-A Clojure library designed to ... well, that part is up to you.
+A tic-tac-toe game w/ console UI -- used as a learning exercise for Clojure.
 
 ## Usage
 
-FIXME
+Run the app with:
+
+   make
 
 ## License
 
-Copyright Â© 2012 FIXME
+Copyright © 2012
 
 Distributed under the Eclipse Public License, the same as Clojure.
