@@ -1,5 +1,5 @@
-# Work around for "lein run" not working w/ read-line on Windows (?), and not
-# being able to get "lein trampoline run" to work either.
+# Work around for "lein run" not working w/ read-line on Windows/cygwin (?),
+# and not being able to get "lein trampoline run" to work either.
 
 default:
 	lein uberjar
