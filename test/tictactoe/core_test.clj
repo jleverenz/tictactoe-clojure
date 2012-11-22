@@ -34,6 +34,11 @@
   (is (= 1 (win-on-line partially-complete-1wins-board '(0 4 8))))
   (is (= 2 (win-on-line partially-complete-2wins-board '(2 5 8)))))
 
+(deftest test-is-space-empty?
+  (is (= true (is-space-empty? empty-board 0)))
+  (is (= false (is-space-empty? partially-complete-1wins-board 0)))
+  (is (= false (is-space-empty? partially-complete-1wins-board 2))))
+
 (deftest test-is-board-solved?
   (is (= false (is-board-solved? empty-board)))
   (is (= false (is-board-solved? draw-board)))

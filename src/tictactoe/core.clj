@@ -33,6 +33,9 @@
          (first marks)                  ; only one type, it's XXX or OOO
          0)))                           ; everything else is a loser
 
+(defn is-space-empty? [board index]
+  (= 0 (nth board index)))
+
 (defn find-winner [board]
   (first (filter #(not (= 0 %))
                  (map #(win-on-line board %)

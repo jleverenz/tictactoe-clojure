@@ -19,13 +19,22 @@
   (printfln "+---+---+---+"))
 
 (defn parse-int [s]
-   (Integer. (re-find  #"\d+" s )))
+  (if (nil? (re-find #"^\d+$" s))
+    (throw (new IllegalArgumentException "Bad input format")))
+  (Integer. (re-find  #"\d+" s )))
 
 (defn console-input [player board]
   (printfln "%s's turn: " (player-name player))
-  (let [input (parse-int (read-line))]
-    (printfln "Player picked: %s" input)
-    (list input #(console-input %1 %2))))
+  (try
+    (let [input (parse-int (read-line))]
+      (if (and (<= input 8) (>= input 0) (is-space-empty? board input))
+        (do
+          (printfln "Player picked: %s" input)
+          (list input #(console-input %1 %2)))
+        (throw (new IllegalArgumentException "Bad input format"))))
+    (catch Exception e
+      (printfln "Invalid selection, choose an empty space, 0-8")
+      (console-input player board))))
 
 (defn -main [& args]
   (let [final-board (play-game empty-board 1 console-input print-board)
