@@ -98,18 +98,22 @@
    (first moves)
    #(scripted-mover %1 %2 (rest moves))))
 
+(defn simulate-game [moves]
+  (play-game empty-board 1 #(scripted-mover %1 %2 moves) nil))
+
+(defn check-play-game-result [moves exp-winner]
+  (let [outcome-board (simulate-game moves)]
+    (is (= 9 (count outcome-board))) ;; we have a board
+    (is (= exp-winner (who-won-board outcome-board)))
+    (is (is-board-complete? outcome-board))
+    outcome-board))
+
 (deftest test-play-game
-  (let [check-play-game-result
-        (fn [moves exp-winner]
-          (let [outcome-board (play-game empty-board
-                                         1
-                                         #(scripted-mover %1 %2 moves)
-                                         nil)]
-            (is (= 9 (count outcome-board))) ;; we have a board
-            (is (= exp-winner (who-won-board outcome-board)))
-            (is (is-board-complete? outcome-board))
-            ))]
-    (check-play-game-result [4 0 1 6 7] 1)
-    (check-play-game-result [4 0 1 6 7 3 2] 1) ;; extra values unused
-    (check-play-game-result [2 4 0 1 6 7] 2)
-    ))
+  (check-play-game-result [4 0 1 6 7] 1)
+  (check-play-game-result [4 0 1 6 7 3 2] 1) ;; extra values unused
+  (check-play-game-result [2 4 0 1 6 7] 2))
+
+(deftest test-play-game-with-draw
+  ;; should not assert
+  (let [board (check-play-game-result [0 1 2 3 4 6 5 8 7] 0)]
+    (is (is-board-full? board))))
