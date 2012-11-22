@@ -110,5 +110,6 @@
             (is (is-board-complete? outcome-board))
             ))]
     (check-play-game-result [4 0 1 6 7] 1)
+    (check-play-game-result [4 0 1 6 7 3 2] 1) ;; extra values unused
     (check-play-game-result [2 4 0 1 6 7] 2)
     ))

@@ -16,12 +16,10 @@
 ;;    criss     0       4       8
 ;;    cross         2   4   6
 
-(def empty-board                      '( 0 0 0
-                                         0 0 0
-                                         0 0 0 ))
+(def empty-board [0 0 0 0 0 0 0 0 0])
 
 (def winning-lines
-  ['(0 1 2) '(6 7 8)'(0 3 6)'(2 5 8)'(1 4 7)'(3 4 5)'(0 4 8)'(2 4 6)])
+  [[0 1 2] [6 7 8][0 3 6][2 5 8][1 4 7][3 4 5][0 4 8][2 4 6]])
 
 ;; Returns 1 or 2 indicating which player won on LINE of BOARD, or 0 if no
 ;; player won
@@ -64,6 +62,10 @@
     (throw (new IllegalArgumentException "MOVE out of bounds")))
   (concat (take index board) (list move) (nthrest board (+ index 1))))
 
+;; takes a board, a set of moves, and who's turn it is, applies moves
+;; alternating between players.
+;;
+;; Returns a list of the resulting board, and who's turn is next
 (defn play-turn [board moves whos-turn]
   (let [winner (who-won-board board)]
     (if (not (= 0 winner))
@@ -77,7 +79,7 @@
 ;; input-func: returns list w/ player's input, function for next input
 (defn play-game [board player input-func output]
   (if (not (nil? output)) (output board))
-  (if (is-board-solved? board)
+  (if (is-board-complete? board)
     board
     (do
       (let [[input next-input-func] (input-func player board)
